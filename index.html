@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URBAN VASTRA - Online Fashion Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    header {
+      background: #111;
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .logo {
+      width: 180px;
+    }
+    nav {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    nav a:hover {
+      color: #00aaff;
+    }
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .menu-toggle span {
+      background: white;
+      height: 3px;
+      width: 25px;
+      margin: 4px 0;
+    }
+    .hero {
+      background: url('https://images.unsplash.com/photo-1618354691373-82f984b55ee5') no-repeat center center/cover;
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.5em;
+      font-family: 'Orbitron', sans-serif;
+    }
+    section {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+    .filter-sort {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    @media(min-width: 600px) {
+      .filter-sort {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+    .filter-sort select, .search-bar input {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .search-bar {
+      margin-bottom: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+    .card h3, .card p {
+      padding: 15px;
+    }
+    .card button {
+      margin: 15px;
+      padding: 10px;
+      background-color: #00aaff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .card button:hover {
+      background-color: #008ecc;
+    }
+    .cart {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      max-width: 300px;
+      display: none;
+      z-index: 999;
+    }
+    .cart h4 {
+      margin-top: 0;
+    }
+    .cart-item {
+      margin-bottom: 10px;
+    }
+    .show-cart {
+      display: block;
+    }
+    .support-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25d366;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+    }
+    footer {
+      background: #111;
+      color: #aaa;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+    a.button {
+      display: inline-block;
+      background: #00aaff;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 15px;
+    }
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: #111;
+      }
+      nav.active {
+        display: flex;
+      }
+      .menu-toggle {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img class="logo" src="https://via.placeholder.com/180x60.png?text=URBAN+VASTRA" alt="URBAN VASTRA">
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+    <nav id="navbar">
+      <a href="#">Home</a>
+      <a href="#about">About</a>
+      <a href="#products">Products</a>
+      <a href="#affiliate">Affiliate</a>
+      <a href="#contact">Contact</a>
+      <a href="#" onclick="toggleCart()">🛒 Cart</a>
+    </nav>
+  </header>
+
+  <a class="support-btn" href="https://wa.me/919053790415" target="_blank">Support 💬</a>
+
+  <div class="cart" id="cart">
+    <h4>Your Cart</h4>
+    <div id="cart-items"></div>
+  </div>
+
+  <section class="hero">
+    <h1>Shop the Trend with URBAN VASTRA</h1>
+    <p>Your trusted dropshipping & affiliate fashion partner</p>
+  </section>
+
+  <section id="about">
+    <h2>About Us</h2>
+    <p>We bring you the latest in fashion including t-shirts, shirts, pants, and shoes—all ready for dropshipping and affiliate business. URBAN VASTRA offers quality and style at your fingertips.</p>
+  </section>
+
+  <section id="products">
+    <h2>Featured Products</h2>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
+    </div>
+    <div class="filter-sort">
+      <select id="category">
+        <option value="all">All</option>
+        <option value="tops">Tops</option>
+        <option value="pants">Pants</option>
+        <option value="shoes">Shoes</option>
+      </select>
+      <select id="sort">
+        <option value="popularity">Sort by Popularity</option>
+        <option value="priceLow">Price: Low to High</option>
+        <option value="priceHigh">Price: High to Low</option>
+      </select>
+    </div>
+    <div class="grid" id="productGrid">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f" alt="Graphic T-Shirt">
+        <h3>Graphic T-Shirt</h3>
+        <p>Trendy casual tees to boost your fashion game.</p>
+        <button onclick="addToCart('Graphic T-Shirt')">Add to Cart</button>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1602810318383-c74c267a8af2" alt="Formal Shirt">
+        <h3>Formal Shirt</h3>
+        <p>Clean, crisp and perfect for any occasion.</p>
+        <button onclick="addToCart('Formal Shirt')">Add to Cart</button>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1576871337632-7b00f7f8b3a8" alt="Track Pants">
+        <h3>Track Pants</h3>
+        <p>Flexible and durable for everyday wear.</p>
+        <button onclick="addToCart('Track Pants')">Add to Cart</button>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1600185365483-26d7a9d2d51f" alt="Sneakers">
+        <h3>Casual Sneakers</h3>
+        <p>Lightweight sneakers to complete your look.</p>
+        <button onclick="addToCart('Casual Sneakers')">Add to Cart</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="affiliate">
+    <h2>Affiliate Opportunities</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Amazon Fashion</h3>
+        <p>Top fashion picks for men and women. Earn with every referral.</p>
+        <a class="button" href="https://www.amazon.in">Shop Amazon</a>
+      </div>
+      <div class="card">
+        <h3>Flipkart Apparel</h3>
+        <p>Exclusive clothing deals from Flipkart. Promote and earn.</p>
+        <a class="button" href="https://www.flipkart.com">Explore Flipkart</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <p>Email: <a href="mailto:yogeshpachar90537@gmail.com">yogeshpachar90537@gmail.com</a></p>
+    <p>WhatsApp: <a href="https://wa.me/919053790415">+91 9053790415</a></p>
+    <p>Instagram: <a href="https://instagram.com/urbanvastra.in" target="_blank">@urbanvastra.in</a></p>
+  </section>
+
+  <footer>
+    &copy; 2025 URBAN VASTRA. All rights reserved.
+  </footer>
+
+  <script>
+    const cartItems = [];
+
+    function addToCart(item) {
+      cartItems.push(item);
+      displayCart();
+    }
+
+    function toggleCart() {
+      const cart = document.getElementById('cart');
+      cart.classList.toggle('show-cart');
+    }
+
+    function displayCart() {
+      const container = document.getElementById('cart-items');
+      container.innerHTML = '';
+      cartItems.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.textContent = `${index + 1}. ${item}`;
+        container.appendChild(div);
+      });
+    }
+
+    function toggleMenu() {
+      const nav = document.getElementById('navbar');
+      nav.classList.toggle('active');
+    }
+
+    function searchProducts() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(input) ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
